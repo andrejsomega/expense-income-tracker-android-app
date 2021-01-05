@@ -1,0 +1,495 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "b204a15fa94995a56381e78f37ba2022",
+    "entities": [
+      {
+        "tableName": "accounts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `category` INTEGER NOT NULL, `balance` REAL NOT NULL, `currency_iso` TEXT NOT NULL, `description` TEXT, FOREIGN KEY(`currency_iso`) REFERENCES `currencies`(`iso`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`category`) REFERENCES `account_categories`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "balance",
+            "columnName": "balance",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currencyISO",
+            "columnName": "currency_iso",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_accounts_category",
+            "unique": false,
+            "columnNames": [
+              "category"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_category` ON `${TABLE_NAME}` (`category`)"
+          },
+          {
+            "name": "index_accounts_currency_iso",
+            "unique": false,
+            "columnNames": [
+              "currency_iso"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_currency_iso` ON `${TABLE_NAME}` (`currency_iso`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "currencies",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "currency_iso"
+            ],
+            "referencedColumns": [
+              "iso"
+            ]
+          },
+          {
+            "table": "account_categories",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "category"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "currencies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`iso` TEXT NOT NULL, `name` TEXT NOT NULL, `symbol` INTEGER NOT NULL, `exchange_rate_from_euro` REAL NOT NULL, PRIMARY KEY(`iso`))",
+        "fields": [
+          {
+            "fieldPath": "iso",
+            "columnName": "iso",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "symbol",
+            "columnName": "symbol",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exchangeRateFromEuro",
+            "columnName": "exchange_rate_from_euro",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "iso"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "account_categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `full_path` TEXT NOT NULL, `description` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullPath",
+            "columnName": "full_path",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "transfers",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `currency_iso` TEXT NOT NULL, `account_from` INTEGER NOT NULL, `account_to` INTEGER NOT NULL, FOREIGN KEY(`currency_iso`) REFERENCES `currencies`(`iso`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`account_from`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`account_to`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currencyISO",
+            "columnName": "currency_iso",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountFrom",
+            "columnName": "account_from",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountTo",
+            "columnName": "account_to",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_transfers_currency_iso",
+            "unique": false,
+            "columnNames": [
+              "currency_iso"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transfers_currency_iso` ON `${TABLE_NAME}` (`currency_iso`)"
+          },
+          {
+            "name": "index_transfers_account_from",
+            "unique": false,
+            "columnNames": [
+              "account_from"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transfers_account_from` ON `${TABLE_NAME}` (`account_from`)"
+          },
+          {
+            "name": "index_transfers_account_to",
+            "unique": false,
+            "columnNames": [
+              "account_to"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transfers_account_to` ON `${TABLE_NAME}` (`account_to`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "currencies",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "currency_iso"
+            ],
+            "referencedColumns": [
+              "iso"
+            ]
+          },
+          {
+            "table": "accounts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "account_from"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "accounts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "account_to"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "transactions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `category` INTEGER NOT NULL, `account` INTEGER NOT NULL, `amount` REAL NOT NULL, `currency_iso` TEXT NOT NULL, `date` INTEGER NOT NULL, `note` TEXT, FOREIGN KEY(`category`) REFERENCES `transaction_categories`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`account`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`currency_iso`) REFERENCES `currencies`(`iso`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "account",
+            "columnName": "account",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency_iso",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_transactions_category",
+            "unique": false,
+            "columnNames": [
+              "category"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_category` ON `${TABLE_NAME}` (`category`)"
+          },
+          {
+            "name": "index_transactions_account",
+            "unique": false,
+            "columnNames": [
+              "account"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_account` ON `${TABLE_NAME}` (`account`)"
+          },
+          {
+            "name": "index_transactions_currency_iso",
+            "unique": false,
+            "columnNames": [
+              "currency_iso"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_currency_iso` ON `${TABLE_NAME}` (`currency_iso`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "transaction_categories",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "category"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "accounts",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "account"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "currencies",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "currency_iso"
+            ],
+            "referencedColumns": [
+              "iso"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "transaction_categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, `full_path` TEXT NOT NULL, `icon_url` TEXT NOT NULL, `description` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullPath",
+            "columnName": "full_path",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconUrl",
+            "columnName": "icon_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_transaction_categories_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transaction_categories_type` ON `${TABLE_NAME}` (`type`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "transaction_types",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b204a15fa94995a56381e78f37ba2022')"
+    ]
+  }
+}

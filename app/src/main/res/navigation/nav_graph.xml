@@ -7,21 +7,27 @@
 
     <fragment
         android:id="@+id/ExpenseCategoriesFragment"
-        android:name="com.example.bakalarka.ui.ExpenseCategoriesFragment"
+        android:name="com.example.work.ui.ExpenseCategoriesFragment"
         android:label="Expense categories"
         tools:layout="@layout/expense_categories_fragment">
         <action
-            android:id="@+id/action_ExpenseCategoriesFragment_to_ExpenseCategoryFragment"
-            app:destination="@id/ExpenseCategoryFragment" />
+            android:id="@+id/showExpenseCategory"
+            app:destination="@id/ExpenseCategoryFragment">
+            <argument
+                android:name="id"
+                android:defaultValue="-1L"
+                app:argType="long" />
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/ExpenseCategoryFragment"
-        android:name="com.example.bakalarka.ui.ExpenseCategoryFragment"
+        android:name="com.example.work.ui.ExpenseCategoryFragment"
         android:label="Expense categories"
         tools:layout="@layout/expense_category_fragment">
         <argument
             android:name="id"
+            android:defaultValue="-1L"
             app:argType="long" />
     </fragment>
 </navigation>
