@@ -10,14 +10,10 @@
         android:name="com.example.work.ui.ExpenseCategoriesFragment"
         android:label="Expense categories"
         tools:layout="@layout/expense_categories_fragment">
+
         <action
-            android:id="@+id/showExpenseCategory"
-            app:destination="@id/ExpenseCategoryFragment">
-            <argument
-                android:name="id"
-                android:defaultValue="-1L"
-                app:argType="long" />
-        </action>
+            android:id="@+id/action_ExpenseCategoriesFragment_to_ExpenseCategoryFragment"
+            app:destination="@id/ExpenseCategoryFragment" />
     </fragment>
 
     <fragment
@@ -29,5 +25,10 @@
             android:name="id"
             android:defaultValue="-1L"
             app:argType="long" />
+        <action
+            android:id="@+id/action_ExpenseCategoryFragment_to_ExpenseCategoriesFragment"
+            app:destination="@id/ExpenseCategoriesFragment"
+            app:popUpTo="@id/ExpenseCategoriesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

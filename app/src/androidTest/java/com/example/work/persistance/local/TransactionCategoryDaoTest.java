@@ -44,15 +44,8 @@ public class TransactionCategoryDaoTest {
         transactionTypeDao = db.transactionTypeDao();
         transactionCategoryDao = db.transactionCategoryDao();
         transactionDao = db.transactionDao();
-    }
 
-    @After
-    public void tearDown() {
-        db.close();
-    }
-
-    @Test
-    public void getSubCategoriesAndAccounts() throws InterruptedException {
+        // insert test data into tables
         currencyDao.insert(TestData.currency1);
         accountCategoryDao.insert(TestData.accountCategory1);
         accountDao.insert(TestData.account1);
@@ -61,11 +54,19 @@ public class TransactionCategoryDaoTest {
         transactionCategoryDao.addSubCategory(TestData.transactionCategory2);
         transactionCategoryDao.addSubCategory(TestData.transactionCategory3);
         transactionDao.insert(TestData.transaction1);
+    }
 
-        TransactionCategory category = transactionCategoryDao.getTransactionCategory(10);
+    @After
+    public void tearDown() {
+        db.close();
+    }
 
-        List<Transaction> transactions = LiveDataTestUtil.getValue(transactionCategoryDao.getDirectTransactions(TestData.transactionCategory2.getId()));
-        List<TransactionCategory> subCategories = LiveDataTestUtil.getValue(transactionCategoryDao.getTransactionSubCategories(Constants.EXPENSE_ID, TestData.transactionCategory2.getFullPath() + "/"));
+    @Test
+    public void getSubCategoriesAndTransaction_true() throws InterruptedException {
+        final long parentCategory = 2;
+        final String parentPath = "/2/";
+        List<Transaction> transactions = LiveDataTestUtil.getValue(transactionCategoryDao.getDirectTransactions(parentCategory));
+        List<TransactionCategory> subCategories = LiveDataTestUtil.getValue(transactionCategoryDao.getTransactionSubCategories(Constants.EXPENSE_ID, parentPath));
 
         assertThat(transactions.get(0).getName() == TestData.transaction1.getName() && subCategories.get(0).getName() == TestData.transactionCategory3.getName()).isTrue();
     }

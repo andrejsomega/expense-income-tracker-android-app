@@ -121,57 +121,22 @@ public class DefaultRepository implements AppRepository {
     }
 
     @Override
-    public TransactionCategory getCategory(long id) {
-        // do in background thread
-        // inner local class
-        class MyCallable implements Callable<TransactionCategory> {
-            private long id;
-            public MyCallable(long id) {
-                this.id = id;
-            }
-
-            @Override
-            public TransactionCategory call() throws Exception {
-                return transactionCategoryDao.getTransactionCategory(id);
-            }
-        }
-
-        Future<TransactionCategory> result = executorService.submit(new MyCallable(id));
-        try {
-            currentCategory = result.get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return currentCategory;
-    }
-
-    @Override
-    public void setCurrentCategory(TransactionCategory transactionCategory) {
-        currentCategory = transactionCategory;
-    }
-
-    @Override
-    public TransactionCategory getCurrentCategory() {
+    public TransactionCategory getTransactionCategory(long id) throws ExecutionException, InterruptedException {
+        Future<TransactionCategory> result = executorService.submit(() -> transactionCategoryDao.getTransactionCategory(id));
+        currentCategory = result.get();
         return currentCategory;
     }
 
     @Override
     public LiveData<List<TransactionCategory>> getTransactionSubCategories(long transactionType, TransactionCategory transactionCategory) {
-        String path = transactionCategory != null ? transactionCategory.getFullPath() + "/" : "/";
+        String path = (transactionCategory != null) ? (transactionCategory.getFullPath() + "/") : "/";
         currentSubcategories = transactionCategoryDao.getTransactionSubCategories(transactionType, path);
         return currentSubcategories;
     }
 
     @Override
     public LiveData<List<Transaction>> getDirectTransactions(TransactionCategory transactionCategory) {
-        if(transactionCategory != null) {
-            currentTransactions = transactionCategoryDao.getDirectTransactions(transactionCategory.getId());
-        } else {
-            currentTransactions = null;
-        }
+        currentTransactions = transactionCategoryDao.getDirectTransactions(transactionCategory.getId());
         return currentTransactions;
     }
 

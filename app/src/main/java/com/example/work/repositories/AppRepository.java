@@ -10,6 +10,7 @@ import com.example.work.models.entities.Transaction;
 import com.example.work.models.entities.TransactionCategory;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public interface AppRepository {
     void transferBetweenAccounts(Account from, Account to, double amount, Currency currency);
@@ -29,11 +30,10 @@ public interface AppRepository {
     void remove(Transaction transaction);
     void remove(TransactionCategory transactionCategory);
 
-    TransactionCategory getCategory(long id);
-    void setCurrentCategory(TransactionCategory transactionCategory);
-    TransactionCategory getCurrentCategory();
-
+    // Transaction Categories
+    TransactionCategory getTransactionCategory(long id) throws ExecutionException, InterruptedException;
     LiveData<List<TransactionCategory>> getTransactionSubCategories(long transactionType, TransactionCategory transactionCategory);
     LiveData<List<Transaction>> getDirectTransactions(TransactionCategory transactionCategory);
+
     LiveData<List<Currency>> getAllCurrencies();
 }

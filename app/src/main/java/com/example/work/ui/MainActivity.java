@@ -17,10 +17,5 @@ public class MainActivity extends AppCompatActivity {
         MyApplication myApplication = ((MyApplication) getApplication());
         myApplication.setUpComponents();
         DefaultRepository repository = myApplication.appContainer.repository;
-
-//        Bundle args = new Bundle();
-//        args.putString("Test", "Hello");
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//        navHostFragment.getNavController().setGraph(R.navigation.nav_graph, args);
     }
 }
