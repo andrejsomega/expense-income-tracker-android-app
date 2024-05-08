@@ -16,10 +16,9 @@ This repository contains the source code for an Android application designed to 
 - **Retrofit:** Type-safe HTTP client for Android and Java which makes it easier to consume RESTful web services.
 ## Application Screenshots
 
-<details><summary>Show</summary>
-|![img](https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/f001764a-373f-4640-88d9-c42d960bcead)<br>text-1|![img](https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/f001764a-373f-4640-88d9-c42d960bcead)<br>text-2|
-</details>
-![ucty_summary](https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/81fd44e5-becd-47a6-a33f-e73d986bc36d)
-![img](https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/f001764a-373f-4640-88d9-c42d960bcead)
-![ucty_zobrazit_suhrn](https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/b1a59667-ddbf-4408-b583-8efdc9b09739)
+<div align="center">
+  <img alt="transactions" src="https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/1e1be029-d0e7-4857-a2dc-300e759729ee" width="400">
+  <img alt="transactions" src="https://github.com/andrejsomega/expense-income-tracker-android-app/assets/59616743/1e1be029-d0e7-4857-a2dc-300e759729ee" width="400">
 
+</div>
+![Uploading add_transaction.png…]()
